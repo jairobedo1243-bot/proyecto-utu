@@ -54,12 +54,6 @@
 
                 <button type="submit" class="btn btn-primary w-100">Ingresar</button>
 
-                <div class="demo-users">
-                    <strong>Usuarios de prueba</strong>
-                    <span>admin@sgrsi.local / admin123</span>
-                    <span>tecnico@sgrsi.local / tecnico123</span>
-                    <span>usuario@sgrsi.local / usuario123</span>
-                </div>
             </form>
         </div>
     </section>
@@ -87,25 +81,25 @@
                 <div class="row g-3">
                     <article class="col-12 col-md-6 col-lg-3">
                         <div class="metric-box">
-                            <span class="metric-number" id="totalEquipos">24</span>
+                            <span class="metric-number" id="totalEquipos">0</span>
                             <span class="metric-title">Equipos registrados</span>
                         </div>
                     </article>
                     <article class="col-12 col-md-6 col-lg-3">
                         <div class="metric-box">
-                            <span class="metric-number" id="ticketsPendientes">6</span>
+                            <span class="metric-number" id="ticketsPendientes">0</span>
                             <span class="metric-title">Tickets pendientes</span>
                         </div>
                     </article>
                     <article class="col-12 col-md-6 col-lg-3">
                         <div class="metric-box">
-                            <span class="metric-number" id="prestamosActivos">3</span>
+                            <span class="metric-number" id="prestamosActivos">0</span>
                             <span class="metric-title">Prestamos activos</span>
                         </div>
                     </article>
                     <article class="col-12 col-md-6 col-lg-3">
                         <div class="metric-box">
-                            <span class="metric-number">4</span>
+                            <span class="metric-number" id="solicitudesSemana">0</span>
                             <span class="metric-title">Solicitudes esta semana</span>
                         </div>
                     </article>
@@ -176,17 +170,8 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tablaInventario">
-                                        <tr>
-                                            <td>PC-LAB1-001</td>
-                                            <td>PC de escritorio</td>
-                                            <td>Laboratorio 1</td>
-                                            <td><span class="status status-ok">Disponible</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>NB-DOC-014</td>
-                                            <td>Notebook</td>
-                                            <td>Coordinacion</td>
-                                            <td><span class="status status-warning">Prestado</span></td>
+                                        <tr class="empty-row">
+                                            <td colspan="4">Todavia no hay equipos registrados.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -225,6 +210,27 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Registrar prestamo</button>
                 </form>
+
+                <div class="table-panel mt-4">
+                    <h3>Prestamos registrados</h3>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Equipo</th>
+                                    <th>Responsable</th>
+                                    <th>Devolucion estimada</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaPrestamos">
+                                <tr class="empty-row">
+                                    <td colspan="4">Todavia no hay prestamos registrados.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -277,20 +283,7 @@
 
                     <div class="col-12 col-lg-7">
                         <div class="ticket-list" id="listaTickets" aria-live="polite">
-                            <article class="ticket-item">
-                                <div>
-                                    <strong>#TK-1024</strong>
-                                    <p>No inicia una PC del laboratorio 1.</p>
-                                </div>
-                                <span class="status status-danger">Pendiente</span>
-                            </article>
-                            <article class="ticket-item">
-                                <div>
-                                    <strong>#TK-1025</strong>
-                                    <p>Instalacion de impresora en administracion.</p>
-                                </div>
-                                <span class="status status-warning">En proceso</span>
-                            </article>
+                            <p class="empty-message">Todavia no hay tickets registrados.</p>
                         </div>
                     </div>
                 </div>
@@ -335,6 +328,28 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Registrar solicitud</button>
                 </form>
+
+                <div class="table-panel mt-4">
+                    <h3>Solicitudes registradas</h3>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha requerida</th>
+                                    <th>Laboratorio</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaSolicitudes">
+                                <tr class="empty-row">
+                                    <td colspan="5">Todavia no hay solicitudes registradas.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -351,9 +366,9 @@
                         <div class="dashboard-panel">
                             <h3>Reportes principales</h3>
                             <ul class="report-list">
-                                <li><span>Equipos con mas fallas</span><strong>PC-LAB1-004</strong></li>
-                                <li><span>Tiempo promedio de resolucion</span><strong>2.4 dias</strong></li>
-                                <li><span>Laboratorio mas solicitado</span><strong>Laboratorio 2</strong></li>
+                                <li><span>Equipos registrados</span><strong id="reporteEquipos">0</strong></li>
+                                <li><span>Tickets pendientes</span><strong id="reporteTickets">0</strong></li>
+                                <li><span>Solicitudes registradas</span><strong id="reporteSolicitudes">0</strong></li>
                             </ul>
                         </div>
                     </article>

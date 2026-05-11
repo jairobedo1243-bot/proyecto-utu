@@ -94,10 +94,30 @@ const crearEstado = (texto) => {
     return estado;
 };
 
+const quitarEstadoVacio = (contenedor) => {
+    const vacio = contenedor.querySelector(".empty-row, .empty-message");
+
+    if (vacio) {
+        vacio.remove();
+    }
+};
+
+const crearCelda = (texto) => {
+    const celda = document.createElement("td");
+    celda.textContent = texto;
+    return celda;
+};
+
 const incrementarNumero = (selector) => {
     const elemento = document.querySelector(selector);
     const valorActual = Number(elemento.textContent);
     elemento.textContent = valorActual + 1;
+};
+
+const sincronizarReportes = () => {
+    document.querySelector("#reporteEquipos").textContent = document.querySelector("#totalEquipos").textContent;
+    document.querySelector("#reporteTickets").textContent = document.querySelector("#ticketsPendientes").textContent;
+    document.querySelector("#reporteSolicitudes").textContent = document.querySelector("#solicitudesSemana").textContent;
 };
 
 const rolPuedeVer = (rolesPermitidos, rolUsuario) => {
@@ -179,6 +199,7 @@ document.querySelector("#formInventario").addEventListener("submit", (evento) =>
             return;
         }
 
+        const tablaInventario = document.querySelector("#tablaInventario");
         const fila = document.createElement("tr");
         const datos = [
             document.querySelector("#codigoEquipo").value.trim(),
@@ -187,17 +208,17 @@ document.querySelector("#formInventario").addEventListener("submit", (evento) =>
         ];
 
         datos.forEach((dato) => {
-            const celda = document.createElement("td");
-            celda.textContent = dato;
-            fila.appendChild(celda);
+            fila.appendChild(crearCelda(dato));
         });
 
         const celdaEstado = document.createElement("td");
         celdaEstado.appendChild(crearEstado(document.querySelector("#estadoEquipo").value));
         fila.appendChild(celdaEstado);
 
-        document.querySelector("#tablaInventario").prepend(fila);
+        quitarEstadoVacio(tablaInventario);
+        tablaInventario.prepend(fila);
         incrementarNumero("#totalEquipos");
+        sincronizarReportes();
         formulario.reset();
         mostrarMensaje("Equipo registrado correctamente.");
     } catch (error) {
@@ -216,6 +237,7 @@ document.querySelector("#formTicket").addEventListener("submit", (evento) => {
             return;
         }
 
+        const listaTickets = document.querySelector("#listaTickets");
         const numeroTicket = Math.floor(1000 + Math.random() * 9000);
         const articulo = document.createElement("article");
         articulo.className = "ticket-item";
@@ -224,16 +246,18 @@ document.querySelector("#formTicket").addEventListener("submit", (evento) => {
         const titulo = document.createElement("strong");
         const descripcion = document.createElement("p");
 
-        titulo.textContent = `#TK-${numeroTicket} - ${document.querySelector("#categoriaTicket").value}`;
-        descripcion.textContent = document.querySelector("#descripcionTicket").value.trim();
+        titulo.textContent = `#TK-${numeroTicket} - ${document.querySelector("#categoriaTicket").value} - ${document.querySelector("#prioridadTicket").value}`;
+        descripcion.textContent = `${document.querySelector("#solicitanteTicket").value.trim()}: ${document.querySelector("#descripcionTicket").value.trim()}`;
 
         contenido.appendChild(titulo);
         contenido.appendChild(descripcion);
         articulo.appendChild(contenido);
         articulo.appendChild(crearEstado("Pendiente"));
 
-        document.querySelector("#listaTickets").prepend(articulo);
+        quitarEstadoVacio(listaTickets);
+        listaTickets.prepend(articulo);
         incrementarNumero("#ticketsPendientes");
+        sincronizarReportes();
         formulario.reset();
         mostrarMensaje("Ticket creado y enviado a soporte.");
     } catch (error) {
@@ -251,6 +275,18 @@ document.querySelector("#formPrestamo").addEventListener("submit", (evento) => {
         return;
     }
 
+    const tablaPrestamos = document.querySelector("#tablaPrestamos");
+    const fila = document.createElement("tr");
+    const celdaEstado = document.createElement("td");
+
+    fila.appendChild(crearCelda(document.querySelector("#equipoPrestamo").value.trim()));
+    fila.appendChild(crearCelda(document.querySelector("#personaPrestamo").value.trim()));
+    fila.appendChild(crearCelda(document.querySelector("#fechaDevolucion").value));
+    celdaEstado.appendChild(crearEstado("Prestado"));
+    fila.appendChild(celdaEstado);
+
+    quitarEstadoVacio(tablaPrestamos);
+    tablaPrestamos.prepend(fila);
     incrementarNumero("#prestamosActivos");
     formulario.reset();
     mostrarMensaje("Prestamo registrado correctamente.");
@@ -265,6 +301,23 @@ document.querySelector("#formSolicitud").addEventListener("submit", (evento) => 
         return;
     }
 
+    const tablaSolicitudes = document.querySelector("#tablaSolicitudes");
+    const fila = document.createElement("tr");
+    const celdaEstado = document.createElement("td");
+
+    fila.appendChild(crearCelda(document.querySelector("#docenteSolicitud").value.trim()));
+    fila.appendChild(crearCelda(document.querySelector("#tipoSolicitud").value));
+    fila.appendChild(crearCelda(document.querySelector("#fechaSolicitud").value));
+    fila.appendChild(crearCelda(document.querySelector("#laboratorioSolicitud").value.trim()));
+    celdaEstado.appendChild(crearEstado("Pendiente"));
+    fila.appendChild(celdaEstado);
+
+    quitarEstadoVacio(tablaSolicitudes);
+    tablaSolicitudes.prepend(fila);
+    incrementarNumero("#solicitudesSemana");
+    sincronizarReportes();
     formulario.reset();
     mostrarMensaje("Solicitud de servicio registrada.");
 });
+
+sincronizarReportes();

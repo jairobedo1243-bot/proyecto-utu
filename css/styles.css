@@ -316,6 +316,21 @@ body {
     gap: 14px;
 }
 
+.empty-message,
+.empty-row td {
+    color: var(--muted);
+    font-weight: 700;
+    text-align: center;
+}
+
+.empty-message {
+    margin: 0;
+    padding: 22px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+}
+
 .ticket-item {
     display: grid;
     gap: 12px;
