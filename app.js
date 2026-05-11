@@ -3,6 +3,10 @@
 const mensajeSistema = document.querySelector("#mensajeSistema");
 
 const mostrarMensaje = (texto) => {
+    if (!mensajeSistema) {
+        return;
+    }
+
     mensajeSistema.textContent = texto;
     mensajeSistema.classList.add("visible");
 
@@ -49,6 +53,14 @@ const validarCampo = (campo) => {
 const validarFormulario = (formulario) => {
     const campos = Array.from(formulario.querySelectorAll("input, select, textarea"));
     return campos.every((campo) => validarCampo(campo));
+};
+
+const registrarSubmit = (selector, accion) => {
+    const formulario = document.querySelector(selector);
+
+    if (formulario) {
+        formulario.addEventListener("submit", accion);
+    }
 };
 
 const crearEstado = (texto) => {
@@ -104,10 +116,17 @@ const crearCeldaAcciones = (editar, eliminar) => {
     return celda;
 };
 
-const incrementarNumero = (selector) => {
+const actualizarTexto = (selector, texto) => {
     const elemento = document.querySelector(selector);
-    const valorActual = Number(elemento.textContent);
-    elemento.textContent = valorActual + 1;
+
+    if (elemento) {
+        elemento.textContent = texto;
+    }
+};
+
+const obtenerTexto = (selector) => {
+    const elemento = document.querySelector(selector);
+    return elemento ? elemento.textContent : "0";
 };
 
 const contarRegistrosTabla = (selector) => {
@@ -119,17 +138,17 @@ const contarTickets = () => {
 };
 
 const actualizarContadores = () => {
-    document.querySelector("#totalEquipos").textContent = contarRegistrosTabla("#tablaInventario");
-    document.querySelector("#ticketsPendientes").textContent = contarTickets();
-    document.querySelector("#prestamosActivos").textContent = contarRegistrosTabla("#tablaPrestamos");
-    document.querySelector("#solicitudesSemana").textContent = contarRegistrosTabla("#tablaSolicitudes");
+    actualizarTexto("#totalEquipos", contarRegistrosTabla("#tablaInventario"));
+    actualizarTexto("#ticketsPendientes", contarTickets());
+    actualizarTexto("#prestamosActivos", contarRegistrosTabla("#tablaPrestamos"));
+    actualizarTexto("#solicitudesSemana", contarRegistrosTabla("#tablaSolicitudes"));
     sincronizarReportes();
 };
 
 const sincronizarReportes = () => {
-    document.querySelector("#reporteEquipos").textContent = document.querySelector("#totalEquipos").textContent;
-    document.querySelector("#reporteTickets").textContent = document.querySelector("#ticketsPendientes").textContent;
-    document.querySelector("#reporteSolicitudes").textContent = document.querySelector("#solicitudesSemana").textContent;
+    actualizarTexto("#reporteEquipos", obtenerTexto("#totalEquipos"));
+    actualizarTexto("#reporteTickets", obtenerTexto("#ticketsPendientes"));
+    actualizarTexto("#reporteSolicitudes", obtenerTexto("#solicitudesSemana"));
 };
 
 const mostrarEstadoVacioTabla = (selector, columnas, texto) => {
@@ -201,7 +220,7 @@ document.querySelectorAll(".app-form").forEach((formulario) => {
     });
 });
 
-document.querySelector("#formInventario").addEventListener("submit", (evento) => {
+registrarSubmit("#formInventario", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -246,7 +265,7 @@ document.querySelector("#formInventario").addEventListener("submit", (evento) =>
     }
 });
 
-document.querySelector("#formTicket").addEventListener("submit", (evento) => {
+registrarSubmit("#formTicket", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -310,7 +329,7 @@ document.querySelector("#formTicket").addEventListener("submit", (evento) => {
     }
 });
 
-document.querySelector("#formPrestamo").addEventListener("submit", (evento) => {
+registrarSubmit("#formPrestamo", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -344,7 +363,7 @@ document.querySelector("#formPrestamo").addEventListener("submit", (evento) => {
     mostrarMensaje("Prestamo registrado correctamente.");
 });
 
-document.querySelector("#formSolicitud").addEventListener("submit", (evento) => {
+registrarSubmit("#formSolicitud", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
