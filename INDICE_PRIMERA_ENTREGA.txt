@@ -1,0 +1,140 @@
+INDICE DE PRIMERA ENTREGA - SGRSI
+=================================
+
+Proyecto: Sistema de Gestion de Recursos y Soporte de Informatica
+Sigla: SGRSI
+
+Este proyecto queda organizado para la primera entrega solicitada.
+
+IMPORTANTE:
+Para la primera entrega se deben usar los archivos listados en este indice.
+Otros archivos antiguos de resumen o pruebas no forman parte de la entrega final.
+
+
+1. HTML + CSS + JAVASCRIPT
+==========================
+
+Archivos principales:
+
+- index.html
+- css/styles.css
+- app.js
+- css/bootstrap.min.css
+- js/bootstrap.bundle.min.js
+
+Cumple con:
+
+- Maquetacion HTML5 con etiquetas semanticas.
+- Estilos CSS3 enfocados en usabilidad.
+- Diseno responsive mobile first.
+- Uso de Bootstrap como framework CSS.
+- Formularios principales del sistema.
+- Navegabilidad entre modulos.
+- Validaciones del lado del cliente.
+- Manipulacion del DOM.
+- Manejo de eventos.
+- Validaciones personalizadas.
+- Control de errores mediante mensajes al usuario.
+
+
+2. DOCUMENTACION DE RELEVAMIENTO Y PLANIFICACION
+================================================
+
+Archivo:
+
+- primera_entrega_relevamiento_planificacion.txt
+
+Incluye:
+
+- Relevamiento de datos.
+- Formularios de recoleccion.
+- Estudio de factibilidades.
+- FODA ponderado.
+- Requerimientos IEEE 830.
+- Logica del sistema con tablas y arboles de decision.
+- Modelo de desarrollo tradicional.
+- Planificacion inicial.
+- Reglas internas del grupo.
+- Kanban.
+- Gantt.
+- CPM / PERT.
+
+
+3. GIT
+======
+
+Archivo:
+
+- primera_entrega_git.txt
+
+Incluye:
+
+- Justificacion del manejador de repositorios.
+- Convenciones de commit.
+- Ramas sugeridas.
+- Versionado y etiquetas.
+- Historial esperado.
+
+
+4. PERSISTENCIA
+===============
+
+Archivos:
+
+- database_sgrsi.sql
+- diagramas_primera_entrega.txt
+
+Incluye:
+
+- Script SQL de la base de datos.
+- Diagrama Entidad-Relacion.
+- Diagrama del codigo.
+- Diagrama de flujo del sitio web.
+
+
+5. ADMINISTRACION DE SISTEMAS OPERATIVOS
+========================================
+
+Archivo:
+
+- primera_entrega_admin_so.txt
+
+Incluye:
+
+- Relevamiento del sistema operativo para servidor.
+- Justificacion del SO elegido.
+- Manual de instalacion.
+- Configuracion de red.
+- Gestion de paquetes.
+- Plan basico de soporte tecnico.
+
+
+NOTA
+====
+
+Esta entrega queda enfocada en documentacion, prototipo HTML/CSS/JS, Git y persistencia.
+No se incluye backend productivo porque no corresponde como requisito central de esta primera entrega.
+
+
+ARCHIVOS A ENTREGAR
+===================
+
+- index.html
+- app.js
+- css/styles.css
+- css/bootstrap.min.css
+- js/bootstrap.bundle.min.js
+- database_sgrsi.sql
+- diagramas_primera_entrega.txt
+- primera_entrega_relevamiento_planificacion.txt
+- primera_entrega_git.txt
+- primera_entrega_admin_so.txt
+- INDICE_PRIMERA_ENTREGA.txt
+- .gitignore
+
+
+ARCHIVOS QUE NO FORMAN PARTE DE ESTA ENTREGA
+============================================
+
+Los archivos de pruebas anteriores, documentos viejos o dependencias locales no deben
+considerarse como parte de la primera entrega. La entrega oficial debe guiarse por este indice.

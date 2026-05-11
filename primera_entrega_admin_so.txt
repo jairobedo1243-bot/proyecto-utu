@@ -1,0 +1,151 @@
+PRIMERA ENTREGA - ADMINISTRACION DE SISTEMAS OPERATIVOS
+=======================================================
+
+Proyecto: SGRSI
+
+
+1. RELEVAMIENTO DEL S.O. PARA EL SERVIDOR
+=========================================
+
+Opciones analizadas:
+
+Ubuntu Server LTS:
+- Facil instalacion.
+- Mucha documentacion.
+- Gran comunidad.
+- Adecuado para entornos educativos.
+
+Debian:
+- Muy estable.
+- Bajo consumo de recursos.
+- Requiere mayor conocimiento tecnico.
+
+Rocky Linux:
+- Orientado a servidores empresariales.
+- Compatible con ecosistema Red Hat.
+- Buena opcion para produccion.
+
+Windows Server:
+- Interfaz grafica familiar.
+- Licenciamiento pago.
+- Mayor consumo de recursos.
+
+Sistema operativo elegido:
+Ubuntu Server LTS.
+
+Justificacion:
+Se elige Ubuntu Server LTS porque es gratuito, estable, tiene soporte extendido,
+documentacion abundante y permite instalar facilmente servicios web, base de datos
+y herramientas de administracion. Es adecuado para una primera implementacion
+academica del sistema.
+
+
+2. PLAN DE SOPORTE TECNICO
+==========================
+
+Soporte preventivo:
+
+- Actualizar paquetes periodicamente.
+- Revisar espacio en disco.
+- Controlar logs del sistema.
+- Verificar estado de servicios.
+- Realizar copias de seguridad.
+
+Soporte correctivo:
+
+- Revisar conectividad.
+- Reiniciar servicios cuando sea necesario.
+- Analizar errores de logs.
+- Restaurar respaldos si ocurre perdida de datos.
+
+Soporte al usuario final:
+
+- Manual breve de acceso al sistema.
+- Registro de incidencias.
+- Canal de comunicacion con tecnico responsable.
+
+
+3. MANUAL BASICO DE INSTALACION DEL S.O. SERVIDOR
+=================================================
+
+Pasos:
+
+1. Descargar imagen ISO de Ubuntu Server LTS desde el sitio oficial.
+2. Crear USB booteable con Rufus o herramienta similar.
+3. Configurar el equipo para iniciar desde USB.
+4. Seleccionar idioma y distribucion de teclado.
+5. Elegir instalacion normal del servidor.
+6. Configurar red.
+7. Crear usuario administrador.
+8. Configurar disco de instalacion.
+9. Instalar sistema base.
+10. Reiniciar el servidor.
+11. Iniciar sesion con el usuario creado.
+12. Ejecutar actualizacion inicial:
+
+sudo apt update
+sudo apt upgrade
+
+
+4. INSTALACION Y CONFIGURACION DE RED
+=====================================
+
+Configuracion sugerida:
+
+- IP estatica: 192.168.1.50
+- Mascara: 255.255.255.0
+- Gateway: 192.168.1.1
+- DNS: 8.8.8.8 / 1.1.1.1
+
+Puertos a considerar:
+
+- 80 para HTTP.
+- 443 para HTTPS.
+- 22 para SSH administrativo.
+- 3306 para MySQL/MariaDB solo si se requiere acceso desde otra maquina.
+
+Recomendacion:
+El puerto de base de datos no debe quedar abierto publicamente.
+Debe limitarse a la red local o al propio servidor.
+
+
+5. GESTION Y ADMINISTRACION DE PAQUETES
+=======================================
+
+Comandos principales:
+
+sudo apt update
+Actualiza la lista de paquetes disponibles.
+
+sudo apt upgrade
+Instala actualizaciones.
+
+sudo apt install nombre-paquete
+Instala un paquete.
+
+sudo apt remove nombre-paquete
+Elimina un paquete.
+
+sudo systemctl status servicio
+Muestra el estado de un servicio.
+
+sudo systemctl restart servicio
+Reinicia un servicio.
+
+
+6. SERVICIOS NECESARIOS PARA FUTURAS ETAPAS
+===========================================
+
+- Servidor web.
+- Motor de base de datos MySQL/MariaDB.
+- Servicio SSH para administracion remota.
+- Herramientas de backup.
+
+
+7. CONCLUSION
+=============
+
+Ubuntu Server LTS es una opcion adecuada para el servidor del SGRSI porque combina
+estabilidad, bajo costo, soporte extendido y facilidad de administracion.
+La configuracion de red debe ser estatica para que el sistema sea accesible dentro
+de la red institucional.

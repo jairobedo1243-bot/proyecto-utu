@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGRSI - Sistema de Gestion de Recursos y Soporte</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg navbar-light" aria-label="Navegacion principal">
+            <div class="container">
+                <a class="navbar-brand" href="#inicio">SGRSI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    <ul class="navbar-nav ms-auto" id="menuModulos">
+                        <li class="nav-item"><a class="nav-link" href="#inventario">Inventario</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#prestamos">Prestamos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#mesa-ayuda">Mesa de ayuda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#solicitudes">Solicitudes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#dashboard">Reportes</a></li>
+                    </ul>
+                    <div class="session-box d-none" id="panelSesion">
+                        <span id="usuarioActual"></span>
+                        <button class="btn btn-outline-secondary btn-sm" type="button" id="btnCerrarSesion">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="login-section" id="login">
+        <div class="container">
+            <form class="app-form login-form" id="formLogin" novalidate>
+                <p class="section-label">Acceso al sistema</p>
+                <h1>Iniciar sesion</h1>
+                <p class="login-help">Ingrese con un usuario registrado para acceder a los modulos del SGRSI.</p>
+
+                <div class="mb-3">
+                    <label for="emailLogin" class="form-label">Correo electronico</label>
+                    <input type="email" class="form-control" id="emailLogin" placeholder="admin@sgrsi.local" required>
+                    <small class="error-message"></small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="passwordLogin" class="form-label">Contrasena</label>
+                    <input type="password" class="form-control" id="passwordLogin" placeholder="Ingrese su contrasena" required minlength="4">
+                    <small class="error-message"></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+
+                <div class="demo-users">
+                    <strong>Usuarios de prueba</strong>
+                    <span>admin@sgrsi.local / admin123</span>
+                    <span>tecnico@sgrsi.local / tecnico123</span>
+                    <span>usuario@sgrsi.local / usuario123</span>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <main id="appContent" class="app-content is-locked">
+        <section id="inicio" class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <p class="section-label">Intranet institucional</p>
+                    <h1>Sistema de Gestion de Recursos y Soporte de Informatica</h1>
+                    <p>
+                        Plataforma interna para registrar inventario, controlar prestamos,
+                        atender incidencias y organizar solicitudes de servicio.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#mesa-ayuda">Crear ticket</a>
+                        <a class="btn btn-outline-light" href="#inventario">Registrar equipo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="summary-section" aria-label="Resumen de modulos" data-roles="Administrador,Tecnico,Solicitante">
+            <div class="container">
+                <div class="row g-3">
+                    <article class="col-12 col-md-6 col-lg-3">
+                        <div class="metric-box">
+                            <span class="metric-number" id="totalEquipos">24</span>
+                            <span class="metric-title">Equipos registrados</span>
+                        </div>
+                    </article>
+                    <article class="col-12 col-md-6 col-lg-3">
+                        <div class="metric-box">
+                            <span class="metric-number" id="ticketsPendientes">6</span>
+                            <span class="metric-title">Tickets pendientes</span>
+                        </div>
+                    </article>
+                    <article class="col-12 col-md-6 col-lg-3">
+                        <div class="metric-box">
+                            <span class="metric-number" id="prestamosActivos">3</span>
+                            <span class="metric-title">Prestamos activos</span>
+                        </div>
+                    </article>
+                    <article class="col-12 col-md-6 col-lg-3">
+                        <div class="metric-box">
+                            <span class="metric-number">4</span>
+                            <span class="metric-title">Solicitudes esta semana</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="inventario" class="module-section" data-roles="Administrador,Tecnico">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="section-label">Modulo A y B</p>
+                    <h2>Gestion de inventario tecnologico</h2>
+                    <p>Alta, baja, modificacion y trazabilidad de activos informaticos.</p>
+                </div>
+
+                <div class="row g-4 align-items-start">
+                    <div class="col-12 col-lg-5">
+                        <form class="app-form" id="formInventario" novalidate>
+                            <h3>Registrar equipo</h3>
+                            <div class="mb-3">
+                                <label for="codigoEquipo" class="form-label">Codigo de inventario</label>
+                                <input type="text" class="form-control" id="codigoEquipo" placeholder="Ej: PC-LAB1-001" required minlength="4">
+                                <small class="error-message"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoEquipo" class="form-label">Tipo de equipo</label>
+                                <select class="form-select" id="tipoEquipo" required>
+                                    <option value="">Seleccionar</option>
+                                    <option>Notebook</option>
+                                    <option>PC de escritorio</option>
+                                    <option>Proyector</option>
+                                    <option>Router</option>
+                                    <option>Impresora</option>
+                                </select>
+                                <small class="error-message"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ubicacionEquipo" class="form-label">Ubicacion</label>
+                                <input type="text" class="form-control" id="ubicacionEquipo" placeholder="Ej: Laboratorio 2" required>
+                                <small class="error-message"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="estadoEquipo" class="form-label">Estado</label>
+                                <select class="form-select" id="estadoEquipo" required>
+                                    <option value="">Seleccionar</option>
+                                    <option>Disponible</option>
+                                    <option>Prestado</option>
+                                    <option>En reparacion</option>
+                                    <option>Baja</option>
+                                </select>
+                                <small class="error-message"></small>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Guardar equipo</button>
+                        </form>
+                    </div>
+
+                    <div class="col-12 col-lg-7">
+                        <div class="table-panel">
+                            <h3>Inventario reciente</h3>
+                            <div class="table-responsive">
+                                <table class="table align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Tipo</th>
+                                            <th>Ubicacion</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaInventario">
+                                        <tr>
+                                            <td>PC-LAB1-001</td>
+                                            <td>PC de escritorio</td>
+                                            <td>Laboratorio 1</td>
+                                            <td><span class="status status-ok">Disponible</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>NB-DOC-014</td>
+                                            <td>Notebook</td>
+                                            <td>Coordinacion</td>
+                                            <td><span class="status status-warning">Prestado</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prestamos" class="module-section soft-section" data-roles="Administrador,Tecnico">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="section-label">Modulo C</p>
+                    <h2>Prestamos y devoluciones</h2>
+                    <p>Control de disponibilidad y registro de quien usa cada recurso.</p>
+                </div>
+
+                <form class="app-form wide-form" id="formPrestamo" novalidate>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4">
+                            <label for="equipoPrestamo" class="form-label">Codigo del equipo</label>
+                            <input type="text" class="form-control" id="equipoPrestamo" required>
+                            <small class="error-message"></small>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="personaPrestamo" class="form-label">Responsable</label>
+                            <input type="text" class="form-control" id="personaPrestamo" required minlength="3">
+                            <small class="error-message"></small>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="fechaDevolucion" class="form-label">Fecha estimada de devolucion</label>
+                            <input type="date" class="form-control" id="fechaDevolucion" required>
+                            <small class="error-message"></small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar prestamo</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="mesa-ayuda" class="module-section" data-roles="Administrador,Tecnico,Solicitante">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="section-label">Modulo D y E</p>
+                    <h2>Mesa de ayuda</h2>
+                    <p>Registro y seguimiento de incidencias tecnicas mediante tickets.</p>
+                </div>
+
+                <div class="row g-4 align-items-start">
+                    <div class="col-12 col-lg-5">
+                        <form class="app-form" id="formTicket" novalidate>
+                            <h3>Crear ticket</h3>
+                            <div class="mb-3">
+                                <label for="solicitanteTicket" class="form-label">Solicitante</label>
+                                <input type="text" class="form-control" id="solicitanteTicket" required minlength="3">
+                                <small class="error-message"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="categoriaTicket" class="form-label">Categoria</label>
+                                <select class="form-select" id="categoriaTicket" required>
+                                    <option value="">Seleccionar</option>
+                                    <option>Hardware</option>
+                                    <option>Software</option>
+                                    <option>Red</option>
+                                    <option>Usuario y acceso</option>
+                                </select>
+                                <small class="error-message"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="prioridadTicket" class="form-label">Prioridad</label>
+                                <select class="form-select" id="prioridadTicket" required>
+                                    <option value="">Seleccionar</option>
+                                    <option>Baja</option>
+                                    <option>Media</option>
+                                    <option>Alta</option>
+                                </select>
+                                <small class="error-message"></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcionTicket" class="form-label">Descripcion de la incidencia</label>
+                                <textarea class="form-control" id="descripcionTicket" rows="4" required minlength="10"></textarea>
+                                <small class="error-message"></small>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Enviar ticket</button>
+                        </form>
+                    </div>
+
+                    <div class="col-12 col-lg-7">
+                        <div class="ticket-list" id="listaTickets" aria-live="polite">
+                            <article class="ticket-item">
+                                <div>
+                                    <strong>#TK-1024</strong>
+                                    <p>No inicia una PC del laboratorio 1.</p>
+                                </div>
+                                <span class="status status-danger">Pendiente</span>
+                            </article>
+                            <article class="ticket-item">
+                                <div>
+                                    <strong>#TK-1025</strong>
+                                    <p>Instalacion de impresora en administracion.</p>
+                                </div>
+                                <span class="status status-warning">En proceso</span>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solicitudes" class="module-section soft-section" data-roles="Administrador,Tecnico,Solicitante">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="section-label">Modulo F y G</p>
+                    <h2>Solicitudes de servicio</h2>
+                    <p>Preparacion de laboratorios, instalacion de software y configuraciones previas.</p>
+                </div>
+
+                <form class="app-form wide-form" id="formSolicitud" novalidate>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label for="docenteSolicitud" class="form-label">Docente o usuario</label>
+                            <input type="text" class="form-control" id="docenteSolicitud" required>
+                            <small class="error-message"></small>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="tipoSolicitud" class="form-label">Tipo de solicitud</label>
+                            <select class="form-select" id="tipoSolicitud" required>
+                                <option value="">Seleccionar</option>
+                                <option>Preparacion de laboratorio</option>
+                                <option>Instalacion de software</option>
+                                <option>Configuracion de equipos</option>
+                            </select>
+                            <small class="error-message"></small>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="fechaSolicitud" class="form-label">Fecha requerida</label>
+                            <input type="date" class="form-control" id="fechaSolicitud" required>
+                            <small class="error-message"></small>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="laboratorioSolicitud" class="form-label">Laboratorio o sala</label>
+                            <input type="text" class="form-control" id="laboratorioSolicitud" required>
+                            <small class="error-message"></small>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar solicitud</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="dashboard" class="module-section" data-roles="Administrador">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="section-label">Modulo H e I</p>
+                    <h2>Dashboard y roles</h2>
+                    <p>Metricas para toma de decisiones y acceso diferenciado por perfil.</p>
+                </div>
+
+                <div class="row g-4">
+                    <article class="col-12 col-lg-6">
+                        <div class="dashboard-panel">
+                            <h3>Reportes principales</h3>
+                            <ul class="report-list">
+                                <li><span>Equipos con mas fallas</span><strong>PC-LAB1-004</strong></li>
+                                <li><span>Tiempo promedio de resolucion</span><strong>2.4 dias</strong></li>
+                                <li><span>Laboratorio mas solicitado</span><strong>Laboratorio 2</strong></li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="col-12 col-lg-6">
+                        <div class="dashboard-panel">
+                            <h3>Control de acceso</h3>
+                            <div class="role-grid">
+                                <span>Administrador / Coordinador</span>
+                                <span>Tecnico / Soporte</span>
+                                <span>Solicitante</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast-message" id="mensajeSistema" role="status" aria-live="polite"></div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>SGRSI - Primera entrega HTML, CSS, JavaScript y persistencia</p>
+        </div>
+    </footer>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

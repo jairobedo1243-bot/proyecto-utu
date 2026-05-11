@@ -1,0 +1,248 @@
+DIAGRAMAS PARA PRIMERA ENTREGA - SGRSI
+======================================
+
+Este archivo contiene solo los diagramas solicitados para la primera entrega:
+
+1. Diagrama MER.
+2. Diagrama del codigo.
+3. Diagrama de flujo del sitio web.
+
+
+1. DIAGRAMA MER / ENTIDAD-RELACION
+==================================
+
+                         +----------------+
+                         | ROLES          |
+                         |----------------|
+                         | PK id_rol      |
+                         | nombre         |
+                         | descripcion    |
+                         +-------+--------+
+                                 |
+                                 | 1 a N
+                                 v
+                         +----------------+
+                         | USUARIOS       |
+                         |----------------|
+                         | PK id_usuario  |
+                         | FK id_rol      |
+                         | nombre         |
+                         | apellido       |
+                         | email          |
+                         | password_hash  |
+                         | telefono       |
+                         | activo         |
+                         +---+--------+---+
+                             |        |
+              crea / atiende |        | solicita / gestiona
+                             |        |
+                             v        v
+       +----------------------+      +----------------+
+       | TICKETS              |      | PRESTAMOS      |
+       |----------------------|      |----------------|
+       | PK id_ticket         |      | PK id_prestamo |
+       | FK categoria_ticket  |      | FK id_equipo   |
+       | FK usuario_solic.    |      | FK solicitante |
+       | FK usuario_tecnico   |      | FK tecnico     |
+       | FK id_equipo         |      | estado         |
+       | titulo               |      +-------+--------+
+       | descripcion          |              |
+       | prioridad            |              |
+       | estado               |              |
+       +----------+-----------+              |
+                  |                          |
+                  | 1 a N                    |
+                  v                          |
+       +----------------------+              |
+       | INTERVENCIONES       |              |
+       |----------------------|              |
+       | PK id_intervencion   |              |
+       | FK id_ticket         |              |
+       | FK usuario_tecnico   |              |
+       | diagnostico          |              |
+       | solucion             |              |
+       +----------------------+              |
+                                               |
++---------------------+      +-----------------v--+      +----------------+
+| CATEGORIAS_TICKET   |      | EQUIPOS            |      | LABORATORIOS   |
+|---------------------|      |--------------------|      |----------------|
+| PK id_categoria     | 1 a N| PK id_equipo       | N a 1| PK laboratorio |
+| nombre              +----->+ FK id_categoria    +----->+ nombre         |
+| descripcion         |      | FK id_laboratorio  |      | ubicacion      |
++---------------------+      | codigo_inventario  |      | capacidad      |
+                             | marca              |      +-------+--------+
+                             | modelo             |              |
+                             | estado             |              |
+                             +----+-----------+---+              |
+                                  |           |                  |
+                                  v           v                  v
+                       +----------------+  +-----------------------------+
+                       | HISTORIAL      |  | SOLICITUDES_SERVICIO        |
+                       |----------------|  |-----------------------------|
+                       | PK historial   |  | PK id_solicitud             |
+                       | FK id_equipo   |  | FK usuario_solicitante      |
+                       | FK id_usuario  |  | FK id_laboratorio           |
+                       | movimiento     |  | tipo                        |
+                       | descripcion    |  | descripcion                 |
+                       +----------------+  | fecha_requerida             |
+                                           | estado                      |
+                                           +--------------+--------------+
+                                                          |
+                                                          | 1 a N
+                                                          v
+                                           +-----------------------------+
+                                           | TAREAS_SOPORTE              |
+                                           |-----------------------------|
+                                           | PK id_tarea                 |
+                                           | FK usuario_tecnico          |
+                                           | FK id_ticket                |
+                                           | FK id_solicitud             |
+                                           | titulo                      |
+                                           | tipo                        |
+                                           | estado                      |
+                                           +-----------------------------+
+
+Explicacion:
+El MER muestra como se organiza la persistencia. Usuarios depende de roles.
+Equipos se relaciona con categorias, laboratorios, prestamos, tickets e historial.
+Tickets puede tener intervenciones tecnicas. Solicitudes puede generar tareas.
+
+
+2. DIAGRAMA DEL CODIGO
+======================
+
+PROYECTO UTU
+|
++-- index.html
+|   +-- Estructura semantica del sitio.
+|   +-- Contiene login, modulos y formularios.
+|
++-- css/
+|   |
+|   +-- bootstrap.min.css
+|   |   +-- Framework CSS usado para grilla responsive y componentes.
+|   |
+|   +-- styles.css
+|       +-- Estilos propios del sistema.
+|       +-- Colores, tarjetas, formularios y media queries.
+|
++-- js/
+|   |
+|   +-- bootstrap.bundle.min.js
+|       +-- Comportamiento de componentes Bootstrap.
+|
++-- app.js
+|   +-- Manipulacion del DOM.
+|   +-- Manejo de eventos.
+|   +-- Validaciones personalizadas.
+|   +-- Control de errores.
+|   +-- Simulacion de login por roles.
+|
++-- database_sgrsi.sql
+|   +-- Modelo de base de datos.
+|   +-- Tablas y relaciones.
+|
++-- documentos .txt
+    +-- Relevamiento, planificacion, Git, SO y diagramas.
+
+
+Diagrama de comunicacion:
+
++-------------------+
+| index.html        |
+| estructura visual |
++---------+---------+
+          |
+          | carga estilos
+          v
++-------------------+
+| css/styles.css    |
+| diseno responsive |
++-------------------+
+
++-------------------+
+| index.html        |
+| formularios       |
++---------+---------+
+          |
+          | eventos
+          v
++-------------------+
+| app.js            |
+| validaciones DOM  |
++---------+---------+
+          |
+          | modifica pantalla
+          v
++-------------------+
+| Usuario ve        |
+| mensajes y cambios|
++-------------------+
+
+Explicacion:
+El codigo esta separado en capas simples para la primera entrega.
+HTML define contenido, CSS define presentacion y JavaScript define comportamiento.
+El SQL documenta la persistencia que se usara en etapas posteriores.
+
+
+3. DIAGRAMA DE FLUJO DEL SITIO WEB
+==================================
+
+                         +------------------+
+                         | Inicio del sitio |
+                         +--------+---------+
+                                  |
+                                  v
+                         +------------------+
+                         | Login            |
+                         +--------+---------+
+                                  |
+                                  v
+                         +------------------+
+                         | Validar campos   |
+                         +--------+---------+
+                                  |
+                 +----------------+----------------+
+                 |                                 |
+                 v                                 v
+      +---------------------+           +---------------------+
+      | Datos incorrectos   |           | Datos correctos     |
+      | Mostrar error       |           | Ingresar al sistema |
+      +----------+----------+           +----------+----------+
+                 |                                 |
+                 v                                 v
+      +---------------------+           +---------------------+
+      | Volver al login     |           | Panel principal     |
+      +---------------------+           +----------+----------+
+                                                |
+       +----------------------+-----------------+----------------------+
+       |                      |                 |                      |
+       v                      v                 v                      v
++--------------+      +--------------+   +--------------+      +--------------+
+| Inventario   |      | Prestamos    |   | Mesa ayuda   |      | Solicitudes  |
++------+-------+      +------+-------+   +------+-------+      +------+-------+
+       |                     |                  |                     |
+       v                     v                  v                     v
++--------------+      +--------------+   +--------------+      +--------------+
+| Registrar    |      | Registrar    |   | Crear ticket |      | Crear pedido |
+| equipo       |      | prestamo     |   | soporte      |      | servicio     |
++------+-------+      +------+-------+   +------+-------+      +------+-------+
+       |                     |                  |                     |
+       +---------------------+------------------+---------------------+
+                             |
+                             v
+                    +------------------+
+                    | Mostrar mensaje  |
+                    | exito o error    |
+                    +--------+---------+
+                             |
+                             v
+                    +------------------+
+                    | Cerrar sesion    |
+                    +------------------+
+
+Explicacion:
+El usuario primero debe iniciar sesion.
+Si los datos son incorrectos, vuelve al login.
+Si los datos son correctos, accede al panel y navega por los modulos.
+Cada formulario valida datos y muestra mensajes de resultado.

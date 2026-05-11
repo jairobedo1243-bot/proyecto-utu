@@ -1,0 +1,387 @@
+PRIMERA ENTREGA - RELEVAMIENTO Y PLANIFICACION INICIAL
+======================================================
+
+Proyecto: SGRSI - Sistema de Gestion de Recursos y Soporte de Informatica
+
+
+1. RELEVAMIENTO DE DATOS
+========================
+
+Objetivo del relevamiento:
+Conocer como se administran actualmente los recursos informaticos, los prestamos de equipos,
+las incidencias tecnicas y las solicitudes de servicio dentro de la institucion.
+
+Tecnicas utilizadas:
+
+- Entrevista a usuarios administrativos y docentes.
+- Observacion del proceso actual de soporte.
+- Analisis de formularios o registros existentes.
+- Cuestionario breve para usuarios finales.
+
+Datos a relevar:
+
+- Tipos de usuarios que utilizaran el sistema.
+- Equipos informaticos disponibles.
+- Ubicacion de equipos.
+- Estados posibles de los equipos.
+- Tipos de incidencias tecnicas.
+- Proceso de prestamo y devolucion.
+- Solicitudes frecuentes de servicio.
+- Reportes necesarios para la administracion.
+
+
+2. FORMULARIOS DE RECOLECCION DE INFORMACION
+============================================
+
+Formulario para inventario:
+
+- Codigo de inventario.
+- Tipo de equipo.
+- Marca.
+- Modelo.
+- Numero de serie.
+- Laboratorio o sala.
+- Estado.
+- Observaciones.
+
+Formulario para incidencias:
+
+- Usuario solicitante.
+- Categoria del problema.
+- Equipo relacionado.
+- Prioridad.
+- Descripcion.
+- Fecha de registro.
+
+Formulario para prestamos:
+
+- Equipo solicitado.
+- Usuario solicitante.
+- Tecnico responsable.
+- Fecha de prestamo.
+- Fecha estimada de devolucion.
+- Observaciones.
+
+Formulario para solicitudes de servicio:
+
+- Usuario o docente solicitante.
+- Tipo de solicitud.
+- Laboratorio o sala.
+- Fecha requerida.
+- Descripcion.
+
+
+3. ESTUDIO DE FACTIBILIDAD
+==========================
+
+Factibilidad tecnica:
+El sistema es tecnicamente viable porque utiliza tecnologias conocidas y disponibles:
+HTML5, CSS3, JavaScript, Bootstrap y MySQL/MariaDB para el diseno de persistencia.
+Puede ejecutarse inicialmente como prototipo web en equipos de laboratorio.
+
+Factibilidad operativa:
+El sistema es operativo porque responde a necesidades reales de administracion:
+control de inventario, registro de tickets, prestamos y solicitudes.
+Los usuarios principales son administrativos, tecnicos y solicitantes.
+
+Factibilidad economica:
+Es viable economicamente porque se apoya en herramientas gratuitas o de codigo abierto.
+No requiere licencias pagas para la primera etapa del proyecto.
+
+Factibilidad legal:
+El sistema debe respetar buenas practicas de seguridad y privacidad.
+Los datos personales de usuarios deben usarse solo para fines institucionales.
+
+Conclusion:
+El proyecto es factible para una primera version academica, con posibilidad de evolucionar
+hacia una aplicacion completa conectada a base de datos.
+
+
+4. ANALISIS FODA PONDERADO
+==========================
+
+Escala usada:
+1 = bajo impacto
+2 = impacto medio
+3 = alto impacto
+
+Fortalezas:
+
+- Necesidad real dentro de una institucion educativa. Peso: 3
+- Separacion clara por modulos. Peso: 3
+- Uso de tecnologias conocidas por el equipo. Peso: 2
+- Prototipo navegable desde la primera entrega. Peso: 3
+
+Total fortalezas: 11
+
+Oportunidades:
+
+- Puede ampliarse a backend y base de datos real. Peso: 3
+- Puede mejorar la organizacion del soporte tecnico. Peso: 3
+- Permite generar reportes administrativos. Peso: 2
+- Puede adaptarse a otros centros educativos. Peso: 2
+
+Total oportunidades: 10
+
+Debilidades:
+
+- El prototipo inicial no guarda todos los datos de forma permanente. Peso: 3
+- El equipo necesita coordinar convenciones de trabajo. Peso: 2
+- Se requiere documentacion clara para sostener el proyecto. Peso: 2
+
+Total debilidades: 7
+
+Amenazas:
+
+- Cambios de alcance durante el desarrollo. Peso: 3
+- Falta de tiempo para completar todas las funciones. Peso: 3
+- Riesgo de errores si no se validan correctamente los formularios. Peso: 2
+- Posibles problemas de configuracion del entorno. Peso: 2
+
+Total amenazas: 10
+
+Interpretacion:
+Las fortalezas y oportunidades son altas, por lo que el proyecto es conveniente.
+Las debilidades y amenazas se controlan con planificacion, division de tareas y validaciones.
+
+
+5. ESPECIFICACION DE REQUERIMIENTOS - IEEE 830
+==============================================
+
+5.1 Proposito
+-------------
+Definir los requerimientos del SGRSI para controlar recursos informaticos,
+prestamos, tickets de soporte y solicitudes de servicio.
+
+5.2 Alcance
+-----------
+El sistema permitira:
+
+- Iniciar sesion con roles de prueba.
+- Navegar por modulos.
+- Registrar equipos en inventario desde el prototipo.
+- Registrar tickets.
+- Registrar prestamos.
+- Registrar solicitudes.
+- Visualizar dashboard basico.
+- Aplicar validaciones del lado del cliente.
+
+Limitaciones:
+
+- En primera entrega, el guardado es principalmente prototipo en interfaz.
+- No se implementa backend productivo obligatorio.
+- La base de datos se entrega como modelo de persistencia mediante SQL y DER.
+
+5.3 Usuarios del sistema
+------------------------
+
+Administrador:
+Gestiona usuarios, inventario, reportes y supervision general.
+
+Tecnico:
+Atiende tickets, controla prestamos, consulta inventario y registra tareas.
+
+Solicitante:
+Registra incidencias y solicitudes de servicio.
+
+5.4 Requerimientos funcionales
+------------------------------
+
+RF01 - El sistema debe permitir iniciar sesion con usuarios de prueba.
+RF02 - El sistema debe mostrar modulos segun el rol del usuario.
+RF03 - El sistema debe permitir registrar equipos desde un formulario.
+RF04 - El sistema debe validar campos obligatorios.
+RF05 - El sistema debe permitir crear tickets de soporte.
+RF06 - El sistema debe permitir registrar prestamos.
+RF07 - El sistema debe permitir registrar solicitudes de servicio.
+RF08 - El sistema debe mostrar mensajes de exito o error.
+RF09 - El sistema debe permitir cerrar sesion.
+RF10 - El sistema debe contar con una estructura de base de datos documentada.
+
+5.5 Requerimientos no funcionales
+---------------------------------
+
+RNF01 - La interfaz debe ser responsive para celulares y tablets.
+RNF02 - El sitio debe utilizar HTML5 semantico.
+RNF03 - Los estilos deben estar separados en archivos CSS.
+RNF04 - El comportamiento debe estar separado en JavaScript.
+RNF05 - El sistema debe tener navegabilidad clara entre modulos.
+RNF06 - El sistema debe usar un framework CSS justificado.
+RNF07 - El codigo debe mantener nombres claros y consistentes.
+RNF08 - La documentacion debe explicar el alcance de la primera entrega.
+
+
+6. LOGICA DEL SISTEMA
+=====================
+
+Tabla de decision: login
+
++-----------------------+-----+-----+-----+
+| Condicion             | C1  | C2  | C3  |
++-----------------------+-----+-----+-----+
+| Email completo        | No  | Si  | Si  |
+| Contrasena completa   | Si  | No  | Si  |
+| Credenciales validas  | -   | -   | Si  |
++-----------------------+-----+-----+-----+
+| Mostrar error campos  | Si  | Si  | No  |
+| Mostrar error acceso  | No  | No  | No  |
+| Iniciar sesion        | No  | No  | Si  |
++-----------------------+-----+-----+-----+
+
+Tabla de decision: registro de ticket
+
++---------------------------+-----+-----+
+| Condicion                 | C1  | C2  |
++---------------------------+-----+-----+
+| Campos obligatorios OK    | No  | Si  |
+| Prioridad seleccionada    | -   | Si  |
++---------------------------+-----+-----+
+| Mostrar error             | Si  | No  |
+| Crear ticket en pantalla  | No  | Si  |
+| Aumentar contador         | No  | Si  |
++---------------------------+-----+-----+
+
+Arbol de decision: prestamo
+
+Registrar prestamo
+|
++-- Datos incompletos
+|   +-- Mostrar mensaje de error
+|
++-- Datos completos
+    |
+    +-- Equipo disponible
+    |   +-- Registrar prestamo
+    |   +-- Aumentar contador de prestamos
+    |
+    +-- Equipo no disponible
+        +-- Informar que no puede prestarse
+
+
+7. MODELO DE DESARROLLO
+=======================
+
+Modelo seleccionado: Tradicional en cascada.
+
+Justificacion:
+Para la primera entrega conviene usar un modelo tradicional porque el curso solicita
+relevamiento, analisis, planificacion, diseno y documentacion antes de avanzar a una
+implementacion completa. Este modelo permite ordenar las etapas y controlar entregables.
+
+Etapas:
+
+1. Relevamiento.
+2. Analisis de requerimientos.
+3. Diseno de interfaz y base de datos.
+4. Implementacion HTML/CSS/JS.
+5. Pruebas de formularios y navegabilidad.
+6. Documentacion y entrega.
+
+
+8. PLANIFICACION INICIAL
+========================
+
+Actividades:
+
+- Relevar necesidades del sistema.
+- Definir alcance.
+- Crear FODA.
+- Especificar requerimientos.
+- Disenar MER.
+- Crear estructura HTML.
+- Aplicar estilos CSS.
+- Implementar JavaScript.
+- Validar formularios.
+- Preparar documentacion.
+- Revisar entrega.
+
+
+9. REGLAS INTERNAS DEL GRUPO
+============================
+
+- Usar nombres claros en archivos y commits.
+- No modificar archivos de otro integrante sin avisar.
+- Registrar tareas en tablero Kanban.
+- Revisar formularios antes de entregar.
+- Mantener una copia actualizada del proyecto.
+- Documentar cambios importantes.
+- Resolver dudas tecnicas en equipo antes de cambiar el alcance.
+
+Paradigma de conformacion:
+Grupo colaborativo con division de tareas por responsabilidad:
+documentacion, interfaz, JavaScript, base de datos y revision final.
+
+
+10. TABLERO KANBAN
+==================
+
+Pendiente:
+
+- Relevar datos finales.
+- Revisar documentacion.
+- Validar DER.
+
+En proceso:
+
+- Ajuste de interfaz.
+- Pruebas de formularios.
+
+Terminado:
+
+- Maquetacion HTML.
+- Estilos CSS.
+- Validaciones JavaScript.
+- Script SQL inicial.
+- Documentos de primera entrega.
+
+
+11. CRONOGRAMA GANTT
+====================
+
+Semana 1:
+- Relevamiento.
+- Definicion del problema.
+
+Semana 2:
+- Requerimientos.
+- FODA.
+- Factibilidad.
+
+Semana 3:
+- Diseno de interfaz.
+- Diseno MER.
+
+Semana 4:
+- HTML y CSS.
+- Navegabilidad.
+
+Semana 5:
+- JavaScript.
+- Validaciones.
+
+Semana 6:
+- Documentacion final.
+- Revision y entrega.
+
+
+12. CPM / PERT RESUMIDO
+=======================
+
+Actividades y dependencias:
+
+A - Relevamiento inicial.
+B - Analisis de factibilidad. Depende de A.
+C - Requerimientos. Depende de A.
+D - Diseno MER. Depende de C.
+E - Maquetacion HTML. Depende de C.
+F - Estilos CSS. Depende de E.
+G - JavaScript y validaciones. Depende de E.
+H - Documentacion final. Depende de B, C, D, F y G.
+I - Revision de entrega. Depende de H.
+
+Camino critico estimado:
+A -> C -> E -> F/G -> H -> I
+
+Conclusion:
+El mayor riesgo de retraso esta en requerimientos, interfaz y validaciones.
+Por eso esas tareas deben controlarse semanalmente.

@@ -1,0 +1,431 @@
+:root {
+    --primary: #176b87;
+    --primary-dark: #0f4457;
+    --accent: #d9853b;
+    --ink: #1d2939;
+    --muted: #667085;
+    --line: #d8dee8;
+    --surface: #ffffff;
+    --soft: #f4f7fb;
+    --danger: #b42318;
+    --warning: #b54708;
+    --success: #067647;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--surface);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+}
+
+.navbar-brand {
+    color: var(--primary-dark);
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.navbar-toggler {
+    border-color: var(--line);
+}
+
+.nav-link {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--primary);
+}
+
+.session-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.login-section {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    padding: 52px 0;
+    background:
+        linear-gradient(90deg, rgba(15, 68, 87, 0.94), rgba(23, 107, 135, 0.82)),
+        url("../images/hero-informatica.jpg");
+    background-color: var(--primary-dark);
+    background-size: cover;
+    background-position: center;
+}
+
+.login-form {
+    max-width: 460px;
+    margin: 0 auto;
+}
+
+.login-form h1 {
+    margin-bottom: 8px;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.login-help {
+    color: var(--muted);
+}
+
+.demo-users {
+    display: grid;
+    gap: 6px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.88rem;
+}
+
+.demo-users strong {
+    color: var(--ink);
+}
+
+.app-content.is-locked {
+    display: none;
+}
+
+.module-hidden {
+    display: none;
+}
+
+.hero-section {
+    min-height: 86vh;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    background:
+        linear-gradient(90deg, rgba(15, 68, 87, 0.94), rgba(23, 107, 135, 0.76)),
+        url("../images/hero-informatica.jpg");
+    background-color: var(--primary-dark);
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 760px;
+    padding: 72px 0;
+}
+
+.hero-content h1 {
+    margin: 0 0 18px;
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-weight: 800;
+}
+
+.hero-content p {
+    max-width: 620px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem;
+}
+
+.hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.btn {
+    min-height: 44px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.btn-primary {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    border-color: #c06f2d;
+    background: #c06f2d;
+}
+
+.btn-outline-light:hover,
+.btn-outline-light:focus {
+    color: var(--primary-dark);
+}
+
+.summary-section,
+.module-section {
+    padding: 52px 0;
+}
+
+.soft-section {
+    background: var(--soft);
+}
+
+.section-heading {
+    max-width: 780px;
+    margin-bottom: 28px;
+}
+
+.section-heading h2 {
+    margin: 0 0 8px;
+    font-size: 1.75rem;
+    font-weight: 800;
+}
+
+.section-heading p {
+    color: var(--muted);
+}
+
+.section-label {
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.metric-box,
+.app-form,
+.table-panel,
+.ticket-item,
+.dashboard-panel {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(16, 24, 40, 0.06);
+}
+
+.metric-box {
+    min-height: 132px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 22px;
+}
+
+.metric-number {
+    color: var(--primary);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.metric-title {
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.app-form,
+.table-panel,
+.dashboard-panel {
+    padding: 22px;
+}
+
+.app-form h3,
+.table-panel h3,
+.dashboard-panel h3 {
+    margin-bottom: 18px;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.wide-form {
+    max-width: 1000px;
+}
+
+.wide-form .btn {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.form-control,
+.form-select {
+    border-color: var(--line);
+    border-radius: 6px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(23, 107, 135, 0.18);
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--danger);
+}
+
+.error-message {
+    min-height: 19px;
+    display: block;
+    margin-top: 4px;
+    color: var(--danger);
+    font-size: 0.84rem;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.status-ok {
+    color: var(--success);
+    background: #dcfae6;
+}
+
+.status-warning {
+    color: var(--warning);
+    background: #fef0c7;
+}
+
+.status-danger {
+    color: var(--danger);
+    background: #fee4e2;
+}
+
+.ticket-list {
+    display: grid;
+    gap: 14px;
+}
+
+.ticket-item {
+    display: grid;
+    gap: 12px;
+    padding: 18px;
+}
+
+.ticket-item p {
+    margin: 6px 0 0;
+    color: var(--muted);
+}
+
+.report-list {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.report-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+}
+
+.report-list li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.report-list span {
+    color: var(--muted);
+}
+
+.role-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.role-grid span {
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--primary);
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.toast-message {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    max-width: calc(100% - 32px);
+    padding: 14px 18px;
+    border-radius: 8px;
+    color: #ffffff;
+    background: var(--primary-dark);
+    box-shadow: 0 16px 36px rgba(16, 24, 40, 0.22);
+    transform: translateY(120px);
+    transition: transform 0.25s ease;
+    z-index: 20;
+}
+
+.toast-message.visible {
+    transform: translateY(0);
+}
+
+.site-footer {
+    padding: 26px 0;
+    color: #ffffff;
+    background: var(--primary-dark);
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+@media (min-width: 576px) {
+    .hero-actions {
+        flex-direction: row;
+    }
+
+    .hero-actions .btn {
+        min-width: 170px;
+    }
+
+    .ticket-item {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .session-box {
+        margin-top: 0;
+        margin-left: 18px;
+    }
+
+    .summary-section,
+    .module-section {
+        padding: 72px 0;
+    }
+
+    .section-heading h2 {
+        font-size: 2.15rem;
+    }
+
+    .wide-form .btn {
+        width: auto;
+        min-width: 220px;
+    }
+}

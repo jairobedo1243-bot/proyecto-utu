@@ -1,0 +1,112 @@
+PRIMERA ENTREGA - GESTION DE CODIGO CON GIT
+===========================================
+
+Proyecto: SGRSI
+
+
+1. MANEJADOR DE REPOSITORIOS
+============================
+
+Manejador elegido: Git.
+
+Justificacion:
+Git permite controlar cambios, volver a versiones anteriores, trabajar con ramas
+y registrar el historial del proyecto. Es adecuado para proyectos academicos y
+profesionales porque facilita la colaboracion y el seguimiento de avances.
+
+Repositorio remoto sugerido:
+GitHub, GitLab o Bitbucket en modo privado, creado bajo el nombre de la empresa/equipo.
+
+
+2. CONVENCIONES DE COMMIT
+=========================
+
+Formato:
+
+tipo: descripcion breve
+
+Tipos:
+
+- docs: cambios en documentacion.
+- feat: nueva funcionalidad.
+- fix: correccion de errores.
+- style: cambios visuales o CSS.
+- refactor: mejora interna sin cambiar funcionalidad.
+- test: pruebas o validaciones.
+- chore: configuracion general.
+
+Ejemplos:
+
+- docs: agregar relevamiento inicial
+- feat: crear formulario de tickets
+- style: ajustar estilos responsive
+- fix: corregir validacion de login
+
+
+3. RAMAS UTILIZADAS
+===================
+
+main:
+Rama estable del proyecto. Contiene versiones listas para entregar.
+
+develop:
+Rama de integracion para avances generales.
+
+feature/html-css:
+Rama para maquetacion y estilos.
+
+feature/javascript:
+Rama para validaciones y comportamiento.
+
+feature/documentacion:
+Rama para documentos de analisis y planificacion.
+
+
+4. VERSIONADO Y ETIQUETAS
+=========================
+
+Convencion:
+vMayor.Menor.Parche
+
+Etiquetas sugeridas:
+
+- v0.1.0-relevamiento
+- v0.2.0-html-css
+- v0.3.0-js-validaciones
+- v1.0.0-primera-entrega
+
+Justificacion:
+Las etiquetas permiten marcar entregas importantes y recuperar facilmente una version.
+
+
+5. HISTORIAL DE COMMITS ESPERADO
+================================
+
+Ejemplo de historial:
+
+1. docs: agregar relevamiento y factibilidad
+2. docs: agregar foda y requerimientos
+3. feat: crear estructura HTML principal
+4. style: aplicar estilos mobile first
+5. feat: agregar formularios principales
+6. feat: implementar validaciones javascript
+7. docs: agregar DER y diagramas
+8. docs: agregar administracion de sistema operativo
+9. chore: preparar primera entrega
+
+
+6. ESTADO LOCAL
+===============
+
+Al momento de revisar el proyecto no habia un repositorio Git inicializado en la carpeta.
+Para cumplir completamente con la entrega se debe crear el repositorio privado y cargar
+estos archivos.
+
+Comandos sugeridos:
+
+git init
+git add .
+git commit -m "docs: preparar primera entrega"
+git branch -M main
+git remote add origin URL_DEL_REPOSITORIO_PRIVADO
+git push -u origin main
