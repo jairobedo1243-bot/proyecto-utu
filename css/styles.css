@@ -56,44 +56,6 @@ body {
     color: var(--primary);
 }
 
-.session-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 12px;
-    color: var(--muted);
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.login-section {
-    min-height: calc(100vh - 70px);
-    display: flex;
-    align-items: center;
-    padding: 52px 0;
-    background:
-        linear-gradient(90deg, rgba(15, 68, 87, 0.94), rgba(23, 107, 135, 0.82)),
-        url("../images/hero-informatica.jpg");
-    background-color: var(--primary-dark);
-    background-size: cover;
-    background-position: center;
-}
-
-.login-form {
-    max-width: 460px;
-    margin: 0 auto;
-}
-
-.login-form h1 {
-    margin-bottom: 8px;
-    font-size: 2rem;
-    font-weight: 800;
-}
-
-.login-help {
-    color: var(--muted);
-}
-
 .demo-users {
     display: grid;
     gap: 6px;
@@ -106,14 +68,6 @@ body {
 
 .demo-users strong {
     color: var(--ink);
-}
-
-.app-content.is-locked {
-    display: none;
-}
-
-.module-hidden {
-    display: none;
 }
 
 .hero-section {
@@ -437,11 +391,6 @@ body {
 }
 
 @media (min-width: 768px) {
-    .session-box {
-        margin-top: 0;
-        margin-left: 18px;
-    }
-
     .summary-section,
     .module-section {
         padding: 72px 0;

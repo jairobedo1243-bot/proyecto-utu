@@ -24,41 +24,12 @@
                         <li class="nav-item"><a class="nav-link" href="#solicitudes">Solicitudes</a></li>
                         <li class="nav-item"><a class="nav-link" href="#dashboard">Reportes</a></li>
                     </ul>
-                    <div class="session-box d-none" id="panelSesion">
-                        <span id="usuarioActual"></span>
-                        <button class="btn btn-outline-secondary btn-sm" type="button" id="btnCerrarSesion">Salir</button>
-                    </div>
                 </div>
             </div>
         </nav>
     </header>
 
-    <section class="login-section" id="login">
-        <div class="container">
-            <form class="app-form login-form" id="formLogin" novalidate>
-                <p class="section-label">Acceso al sistema</p>
-                <h1>Iniciar sesion</h1>
-                <p class="login-help">Ingrese con un usuario registrado para acceder a los modulos del SGRSI.</p>
-
-                <div class="mb-3">
-                    <label for="emailLogin" class="form-label">Correo electronico</label>
-                    <input type="email" class="form-control" id="emailLogin" placeholder="admin@sgrsi.local" required>
-                    <small class="error-message"></small>
-                </div>
-
-                <div class="mb-3">
-                    <label for="passwordLogin" class="form-label">Contrasena</label>
-                    <input type="password" class="form-control" id="passwordLogin" placeholder="Ingrese su contrasena" required minlength="4">
-                    <small class="error-message"></small>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-
-            </form>
-        </div>
-    </section>
-
-    <main id="appContent" class="app-content is-locked">
+    <main id="appContent" class="app-content">
         <section id="inicio" class="hero-section">
             <div class="container">
                 <div class="hero-content">

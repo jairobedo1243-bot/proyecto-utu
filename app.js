@@ -1,33 +1,6 @@
 "use strict";
 
 const mensajeSistema = document.querySelector("#mensajeSistema");
-const appContent = document.querySelector("#appContent");
-const loginSection = document.querySelector("#login");
-const panelSesion = document.querySelector("#panelSesion");
-const usuarioActual = document.querySelector("#usuarioActual");
-const btnCerrarSesion = document.querySelector("#btnCerrarSesion");
-const menuModulos = document.querySelector("#menuModulos");
-
-const usuariosSistema = [
-    {
-        email: "admin@sgrsi.local",
-        password: "admin123",
-        nombre: "Administrador SGRSI",
-        rol: "Administrador"
-    },
-    {
-        email: "tecnico@sgrsi.local",
-        password: "tecnico123",
-        nombre: "Tecnico Soporte",
-        rol: "Tecnico"
-    },
-    {
-        email: "usuario@sgrsi.local",
-        password: "usuario123",
-        nombre: "Usuario Solicitante",
-        rol: "Solicitante"
-    }
-];
 
 const mostrarMensaje = (texto) => {
     mensajeSistema.textContent = texto;
@@ -220,44 +193,6 @@ const eliminarFilaTabla = (fila, opciones) => {
     mostrarMensaje("Registro eliminado correctamente.");
 };
 
-const rolPuedeVer = (rolesPermitidos, rolUsuario) => {
-    return rolesPermitidos.split(",").map((rol) => rol.trim()).includes(rolUsuario);
-};
-
-const aplicarPermisos = (usuario) => {
-    document.querySelectorAll("[data-roles]").forEach((seccion) => {
-        const puedeVer = rolPuedeVer(seccion.dataset.roles, usuario.rol);
-        seccion.classList.toggle("module-hidden", !puedeVer);
-    });
-
-    menuModulos.querySelectorAll(".nav-link").forEach((link) => {
-        const idSeccion = link.getAttribute("href").replace("#", "");
-        const seccion = document.getElementById(idSeccion);
-        const puedeVer = !seccion || !seccion.dataset.roles || rolPuedeVer(seccion.dataset.roles, usuario.rol);
-        link.closest(".nav-item").classList.toggle("d-none", !puedeVer);
-    });
-};
-
-const iniciarSesion = (usuario) => {
-    loginSection.classList.add("d-none");
-    appContent.classList.remove("is-locked");
-    panelSesion.classList.remove("d-none");
-    usuarioActual.textContent = `${usuario.nombre} - ${usuario.rol}`;
-    aplicarPermisos(usuario);
-    mostrarMensaje(`Bienvenido, ${usuario.nombre}.`);
-    window.location.hash = "#inicio";
-};
-
-const cerrarSesion = () => {
-    appContent.classList.add("is-locked");
-    loginSection.classList.remove("d-none");
-    panelSesion.classList.add("d-none");
-    usuarioActual.textContent = "";
-    document.querySelector("#formLogin").reset();
-    mostrarMensaje("Sesion cerrada correctamente.");
-    window.location.hash = "#login";
-};
-
 document.querySelectorAll(".app-form").forEach((formulario) => {
     formulario.addEventListener("input", (evento) => {
         if (evento.target.matches("input, select, textarea")) {
@@ -265,29 +200,6 @@ document.querySelectorAll(".app-form").forEach((formulario) => {
         }
     });
 });
-
-document.querySelector("#formLogin").addEventListener("submit", (evento) => {
-    evento.preventDefault();
-    const formulario = evento.currentTarget;
-
-    if (!validarFormulario(formulario)) {
-        mostrarMensaje("Ingrese correo y contrasena para continuar.");
-        return;
-    }
-
-    const email = document.querySelector("#emailLogin").value.trim().toLowerCase();
-    const password = document.querySelector("#passwordLogin").value;
-    const usuario = usuariosSistema.find((item) => item.email === email && item.password === password);
-
-    if (!usuario) {
-        mostrarMensaje("Usuario o contrasena incorrectos.");
-        return;
-    }
-
-    iniciarSesion(usuario);
-});
-
-btnCerrarSesion.addEventListener("click", cerrarSesion);
 
 document.querySelector("#formInventario").addEventListener("submit", (evento) => {
     evento.preventDefault();
