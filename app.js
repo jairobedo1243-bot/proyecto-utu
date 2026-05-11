@@ -1,12 +1,35 @@
 "use strict";
 
 const mensajeSistema = document.querySelector("#mensajeSistema");
+const appContent = document.querySelector("#appContent");
+const loginSection = document.querySelector("#login");
+const panelSesion = document.querySelector("#panelSesion");
+const usuarioActual = document.querySelector("#usuarioActual");
+const btnCerrarSesion = document.querySelector("#btnCerrarSesion");
+const menuModulos = document.querySelector("#menuModulos");
+
+const usuariosSistema = [
+    {
+        email: "admin@sgrsi.local",
+        password: "admin123",
+        nombre: "Administrador SGRSI",
+        rol: "Administrador"
+    },
+    {
+        email: "tecnico@sgrsi.local",
+        password: "tecnico123",
+        nombre: "Tecnico Soporte",
+        rol: "Tecnico"
+    },
+    {
+        email: "usuario@sgrsi.local",
+        password: "usuario123",
+        nombre: "Usuario Solicitante",
+        rol: "Solicitante"
+    }
+];
 
 const mostrarMensaje = (texto) => {
-    if (!mensajeSistema) {
-        return;
-    }
-
     mensajeSistema.textContent = texto;
     mensajeSistema.classList.add("visible");
 
@@ -55,14 +78,6 @@ const validarFormulario = (formulario) => {
     return campos.every((campo) => validarCampo(campo));
 };
 
-const registrarSubmit = (selector, accion) => {
-    const formulario = document.querySelector(selector);
-
-    if (formulario) {
-        formulario.addEventListener("submit", accion);
-    }
-};
-
 const crearEstado = (texto) => {
     const estado = document.createElement("span");
     estado.textContent = texto;
@@ -93,123 +108,54 @@ const crearCelda = (texto) => {
     return celda;
 };
 
-const crearBoton = (texto, tipo, accion) => {
-    const boton = document.createElement("button");
-    boton.type = "button";
-    boton.textContent = texto;
-    boton.className = `btn btn-sm ${tipo}`;
-    boton.addEventListener("click", accion);
-    return boton;
-};
-
-const crearAcciones = (editar, eliminar) => {
-    const acciones = document.createElement("div");
-    acciones.className = "record-actions";
-    acciones.appendChild(crearBoton("Editar", "btn-outline-secondary", editar));
-    acciones.appendChild(crearBoton("Eliminar", "btn-outline-danger", eliminar));
-    return acciones;
-};
-
-const crearCeldaAcciones = (editar, eliminar) => {
-    const celda = document.createElement("td");
-    celda.appendChild(crearAcciones(editar, eliminar));
-    return celda;
-};
-
-const actualizarTexto = (selector, texto) => {
+const incrementarNumero = (selector) => {
     const elemento = document.querySelector(selector);
-
-    if (elemento) {
-        elemento.textContent = texto;
-    }
-};
-
-const obtenerTexto = (selector) => {
-    const elemento = document.querySelector(selector);
-    return elemento ? elemento.textContent : "0";
-};
-
-const contarRegistrosTabla = (selector) => {
-    return document.querySelectorAll(`${selector} tr:not(.empty-row)`).length;
-};
-
-const contarTickets = () => {
-    return document.querySelectorAll("#listaTickets .ticket-item").length;
-};
-
-const actualizarContadores = () => {
-    actualizarTexto("#totalEquipos", contarRegistrosTabla("#tablaInventario"));
-    actualizarTexto("#ticketsPendientes", contarTickets());
-    actualizarTexto("#prestamosActivos", contarRegistrosTabla("#tablaPrestamos"));
-    actualizarTexto("#solicitudesSemana", contarRegistrosTabla("#tablaSolicitudes"));
-    sincronizarReportes();
+    const valorActual = Number(elemento.textContent);
+    elemento.textContent = valorActual + 1;
 };
 
 const sincronizarReportes = () => {
-    actualizarTexto("#reporteEquipos", obtenerTexto("#totalEquipos"));
-    actualizarTexto("#reporteTickets", obtenerTexto("#ticketsPendientes"));
-    actualizarTexto("#reporteSolicitudes", obtenerTexto("#solicitudesSemana"));
+    document.querySelector("#reporteEquipos").textContent = document.querySelector("#totalEquipos").textContent;
+    document.querySelector("#reporteTickets").textContent = document.querySelector("#ticketsPendientes").textContent;
+    document.querySelector("#reporteSolicitudes").textContent = document.querySelector("#solicitudesSemana").textContent;
 };
 
-const mostrarEstadoVacioTabla = (selector, columnas, texto) => {
-    const tabla = document.querySelector(selector);
-
-    if (contarRegistrosTabla(selector) === 0) {
-        const fila = document.createElement("tr");
-        fila.className = "empty-row";
-        const celda = document.createElement("td");
-        celda.colSpan = columnas;
-        celda.textContent = texto;
-        fila.appendChild(celda);
-        tabla.appendChild(fila);
-    }
+const rolPuedeVer = (rolesPermitidos, rolUsuario) => {
+    return rolesPermitidos.split(",").map((rol) => rol.trim()).includes(rolUsuario);
 };
 
-const mostrarEstadoVacioTickets = () => {
-    const listaTickets = document.querySelector("#listaTickets");
-
-    if (contarTickets() === 0) {
-        const mensaje = document.createElement("p");
-        mensaje.className = "empty-message";
-        mensaje.textContent = "Todavia no hay tickets registrados.";
-        listaTickets.appendChild(mensaje);
-    }
-};
-
-const pedirDato = (mensaje, valorActual) => {
-    const nuevoValor = window.prompt(mensaje, valorActual);
-
-    if (nuevoValor === null) {
-        return valorActual;
-    }
-
-    return nuevoValor.trim() || valorActual;
-};
-
-const editarFilaTabla = (fila, campos, indiceEstado = null) => {
-    campos.forEach((campo, indice) => {
-        if (indice === indiceEstado) {
-            const estadoActual = fila.children[indice].textContent.trim();
-            const nuevoEstado = pedirDato(campo, estadoActual);
-            fila.children[indice].replaceChildren(crearEstado(nuevoEstado));
-            return;
-        }
-
-        fila.children[indice].textContent = pedirDato(campo, fila.children[indice].textContent.trim());
+const aplicarPermisos = (usuario) => {
+    document.querySelectorAll("[data-roles]").forEach((seccion) => {
+        const puedeVer = rolPuedeVer(seccion.dataset.roles, usuario.rol);
+        seccion.classList.toggle("module-hidden", !puedeVer);
     });
 
-    mostrarMensaje("Registro modificado correctamente.");
+    menuModulos.querySelectorAll(".nav-link").forEach((link) => {
+        const idSeccion = link.getAttribute("href").replace("#", "");
+        const seccion = document.getElementById(idSeccion);
+        const puedeVer = !seccion || !seccion.dataset.roles || rolPuedeVer(seccion.dataset.roles, usuario.rol);
+        link.closest(".nav-item").classList.toggle("d-none", !puedeVer);
+    });
 };
 
-const eliminarFilaTabla = (fila, opciones) => {
-    if (!window.confirm("Desea eliminar este registro?")) {
-        return;
-    }
+const iniciarSesion = (usuario) => {
+    loginSection.classList.add("d-none");
+    appContent.classList.remove("is-locked");
+    panelSesion.classList.remove("d-none");
+    usuarioActual.textContent = `${usuario.nombre} - ${usuario.rol}`;
+    aplicarPermisos(usuario);
+    mostrarMensaje(`Bienvenido, ${usuario.nombre}.`);
+    window.location.hash = "#inicio";
+};
 
-    fila.remove();
-    mostrarEstadoVacioTabla(opciones.selector, opciones.columnas, opciones.textoVacio);
-    actualizarContadores();
-    mostrarMensaje("Registro eliminado correctamente.");
+const cerrarSesion = () => {
+    appContent.classList.add("is-locked");
+    loginSection.classList.remove("d-none");
+    panelSesion.classList.add("d-none");
+    usuarioActual.textContent = "";
+    document.querySelector("#formLogin").reset();
+    mostrarMensaje("Sesion cerrada correctamente.");
+    window.location.hash = "#login";
 };
 
 document.querySelectorAll(".app-form").forEach((formulario) => {
@@ -220,7 +166,30 @@ document.querySelectorAll(".app-form").forEach((formulario) => {
     });
 });
 
-registrarSubmit("#formInventario", (evento) => {
+document.querySelector("#formLogin").addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    const formulario = evento.currentTarget;
+
+    if (!validarFormulario(formulario)) {
+        mostrarMensaje("Ingrese correo y contrasena para continuar.");
+        return;
+    }
+
+    const email = document.querySelector("#emailLogin").value.trim().toLowerCase();
+    const password = document.querySelector("#passwordLogin").value;
+    const usuario = usuariosSistema.find((item) => item.email === email && item.password === password);
+
+    if (!usuario) {
+        mostrarMensaje("Usuario o contrasena incorrectos.");
+        return;
+    }
+
+    iniciarSesion(usuario);
+});
+
+btnCerrarSesion.addEventListener("click", cerrarSesion);
+
+document.querySelector("#formInventario").addEventListener("submit", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -245,18 +214,11 @@ registrarSubmit("#formInventario", (evento) => {
         const celdaEstado = document.createElement("td");
         celdaEstado.appendChild(crearEstado(document.querySelector("#estadoEquipo").value));
         fila.appendChild(celdaEstado);
-        fila.appendChild(crearCeldaAcciones(
-            () => editarFilaTabla(fila, ["Codigo del equipo", "Tipo de equipo", "Ubicacion", "Estado"], 3),
-            () => eliminarFilaTabla(fila, {
-                selector: "#tablaInventario",
-                columnas: 5,
-                textoVacio: "Todavia no hay equipos registrados."
-            })
-        ));
 
         quitarEstadoVacio(tablaInventario);
         tablaInventario.prepend(fila);
-        actualizarContadores();
+        incrementarNumero("#totalEquipos");
+        sincronizarReportes();
         formulario.reset();
         mostrarMensaje("Equipo registrado correctamente.");
     } catch (error) {
@@ -265,7 +227,7 @@ registrarSubmit("#formInventario", (evento) => {
     }
 });
 
-registrarSubmit("#formTicket", (evento) => {
+document.querySelector("#formTicket").addEventListener("submit", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -279,48 +241,23 @@ registrarSubmit("#formTicket", (evento) => {
         const numeroTicket = Math.floor(1000 + Math.random() * 9000);
         const articulo = document.createElement("article");
         articulo.className = "ticket-item";
-        articulo.dataset.categoria = document.querySelector("#categoriaTicket").value;
-        articulo.dataset.prioridad = document.querySelector("#prioridadTicket").value;
-        articulo.dataset.solicitante = document.querySelector("#solicitanteTicket").value.trim();
-        articulo.dataset.descripcion = document.querySelector("#descripcionTicket").value.trim();
-        articulo.dataset.numero = `#TK-${numeroTicket}`;
 
         const contenido = document.createElement("div");
         const titulo = document.createElement("strong");
         const descripcion = document.createElement("p");
 
-        titulo.textContent = `${articulo.dataset.numero} - ${articulo.dataset.categoria} - ${articulo.dataset.prioridad}`;
-        descripcion.textContent = `${articulo.dataset.solicitante}: ${articulo.dataset.descripcion}`;
+        titulo.textContent = `#TK-${numeroTicket} - ${document.querySelector("#categoriaTicket").value} - ${document.querySelector("#prioridadTicket").value}`;
+        descripcion.textContent = `${document.querySelector("#solicitanteTicket").value.trim()}: ${document.querySelector("#descripcionTicket").value.trim()}`;
 
         contenido.appendChild(titulo);
         contenido.appendChild(descripcion);
         articulo.appendChild(contenido);
         articulo.appendChild(crearEstado("Pendiente"));
-        articulo.appendChild(crearAcciones(
-            () => {
-                articulo.dataset.solicitante = pedirDato("Solicitante", articulo.dataset.solicitante);
-                articulo.dataset.categoria = pedirDato("Categoria", articulo.dataset.categoria);
-                articulo.dataset.prioridad = pedirDato("Prioridad", articulo.dataset.prioridad);
-                articulo.dataset.descripcion = pedirDato("Descripcion", articulo.dataset.descripcion);
-                titulo.textContent = `${articulo.dataset.numero} - ${articulo.dataset.categoria} - ${articulo.dataset.prioridad}`;
-                descripcion.textContent = `${articulo.dataset.solicitante}: ${articulo.dataset.descripcion}`;
-                mostrarMensaje("Ticket modificado correctamente.");
-            },
-            () => {
-                if (!window.confirm("Desea eliminar este ticket?")) {
-                    return;
-                }
-
-                articulo.remove();
-                mostrarEstadoVacioTickets();
-                actualizarContadores();
-                mostrarMensaje("Ticket eliminado correctamente.");
-            }
-        ));
 
         quitarEstadoVacio(listaTickets);
         listaTickets.prepend(articulo);
-        actualizarContadores();
+        incrementarNumero("#ticketsPendientes");
+        sincronizarReportes();
         formulario.reset();
         mostrarMensaje("Ticket creado y enviado a soporte.");
     } catch (error) {
@@ -329,7 +266,7 @@ registrarSubmit("#formTicket", (evento) => {
     }
 });
 
-registrarSubmit("#formPrestamo", (evento) => {
+document.querySelector("#formPrestamo").addEventListener("submit", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -347,23 +284,15 @@ registrarSubmit("#formPrestamo", (evento) => {
     fila.appendChild(crearCelda(document.querySelector("#fechaDevolucion").value));
     celdaEstado.appendChild(crearEstado("Prestado"));
     fila.appendChild(celdaEstado);
-    fila.appendChild(crearCeldaAcciones(
-        () => editarFilaTabla(fila, ["Codigo del equipo", "Responsable", "Fecha estimada de devolucion", "Estado"], 3),
-        () => eliminarFilaTabla(fila, {
-            selector: "#tablaPrestamos",
-            columnas: 5,
-            textoVacio: "Todavia no hay prestamos registrados."
-        })
-    ));
 
     quitarEstadoVacio(tablaPrestamos);
     tablaPrestamos.prepend(fila);
-    actualizarContadores();
+    incrementarNumero("#prestamosActivos");
     formulario.reset();
     mostrarMensaje("Prestamo registrado correctamente.");
 });
 
-registrarSubmit("#formSolicitud", (evento) => {
+document.querySelector("#formSolicitud").addEventListener("submit", (evento) => {
     evento.preventDefault();
     const formulario = evento.currentTarget;
 
@@ -382,20 +311,13 @@ registrarSubmit("#formSolicitud", (evento) => {
     fila.appendChild(crearCelda(document.querySelector("#laboratorioSolicitud").value.trim()));
     celdaEstado.appendChild(crearEstado("Pendiente"));
     fila.appendChild(celdaEstado);
-    fila.appendChild(crearCeldaAcciones(
-        () => editarFilaTabla(fila, ["Usuario", "Tipo de solicitud", "Fecha requerida", "Laboratorio", "Estado"], 4),
-        () => eliminarFilaTabla(fila, {
-            selector: "#tablaSolicitudes",
-            columnas: 6,
-            textoVacio: "Todavia no hay solicitudes registradas."
-        })
-    ));
 
     quitarEstadoVacio(tablaSolicitudes);
     tablaSolicitudes.prepend(fila);
-    actualizarContadores();
+    incrementarNumero("#solicitudesSemana");
+    sincronizarReportes();
     formulario.reset();
     mostrarMensaje("Solicitud de servicio registrada.");
 });
 
-actualizarContadores();
+sincronizarReportes();
