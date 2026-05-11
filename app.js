@@ -108,16 +108,116 @@ const crearCelda = (texto) => {
     return celda;
 };
 
+const crearBoton = (texto, tipo, accion) => {
+    const boton = document.createElement("button");
+    boton.type = "button";
+    boton.textContent = texto;
+    boton.className = `btn btn-sm ${tipo}`;
+    boton.addEventListener("click", accion);
+    return boton;
+};
+
+const crearAcciones = (editar, eliminar) => {
+    const acciones = document.createElement("div");
+    acciones.className = "record-actions";
+    acciones.appendChild(crearBoton("Editar", "btn-outline-secondary", editar));
+    acciones.appendChild(crearBoton("Eliminar", "btn-outline-danger", eliminar));
+    return acciones;
+};
+
+const crearCeldaAcciones = (editar, eliminar) => {
+    const celda = document.createElement("td");
+    celda.appendChild(crearAcciones(editar, eliminar));
+    return celda;
+};
+
 const incrementarNumero = (selector) => {
     const elemento = document.querySelector(selector);
     const valorActual = Number(elemento.textContent);
     elemento.textContent = valorActual + 1;
 };
 
+const contarRegistrosTabla = (selector) => {
+    return document.querySelectorAll(`${selector} tr:not(.empty-row)`).length;
+};
+
+const contarTickets = () => {
+    return document.querySelectorAll("#listaTickets .ticket-item").length;
+};
+
+const actualizarContadores = () => {
+    document.querySelector("#totalEquipos").textContent = contarRegistrosTabla("#tablaInventario");
+    document.querySelector("#ticketsPendientes").textContent = contarTickets();
+    document.querySelector("#prestamosActivos").textContent = contarRegistrosTabla("#tablaPrestamos");
+    document.querySelector("#solicitudesSemana").textContent = contarRegistrosTabla("#tablaSolicitudes");
+    sincronizarReportes();
+};
+
 const sincronizarReportes = () => {
     document.querySelector("#reporteEquipos").textContent = document.querySelector("#totalEquipos").textContent;
     document.querySelector("#reporteTickets").textContent = document.querySelector("#ticketsPendientes").textContent;
     document.querySelector("#reporteSolicitudes").textContent = document.querySelector("#solicitudesSemana").textContent;
+};
+
+const mostrarEstadoVacioTabla = (selector, columnas, texto) => {
+    const tabla = document.querySelector(selector);
+
+    if (contarRegistrosTabla(selector) === 0) {
+        const fila = document.createElement("tr");
+        fila.className = "empty-row";
+        const celda = document.createElement("td");
+        celda.colSpan = columnas;
+        celda.textContent = texto;
+        fila.appendChild(celda);
+        tabla.appendChild(fila);
+    }
+};
+
+const mostrarEstadoVacioTickets = () => {
+    const listaTickets = document.querySelector("#listaTickets");
+
+    if (contarTickets() === 0) {
+        const mensaje = document.createElement("p");
+        mensaje.className = "empty-message";
+        mensaje.textContent = "Todavia no hay tickets registrados.";
+        listaTickets.appendChild(mensaje);
+    }
+};
+
+const pedirDato = (mensaje, valorActual) => {
+    const nuevoValor = window.prompt(mensaje, valorActual);
+
+    if (nuevoValor === null) {
+        return valorActual;
+    }
+
+    return nuevoValor.trim() || valorActual;
+};
+
+const editarFilaTabla = (fila, campos, indiceEstado = null) => {
+    campos.forEach((campo, indice) => {
+        if (indice === indiceEstado) {
+            const estadoActual = fila.children[indice].textContent.trim();
+            const nuevoEstado = pedirDato(campo, estadoActual);
+            fila.children[indice].replaceChildren(crearEstado(nuevoEstado));
+            return;
+        }
+
+        fila.children[indice].textContent = pedirDato(campo, fila.children[indice].textContent.trim());
+    });
+
+    mostrarMensaje("Registro modificado correctamente.");
+};
+
+const eliminarFilaTabla = (fila, opciones) => {
+    if (!window.confirm("Desea eliminar este registro?")) {
+        return;
+    }
+
+    fila.remove();
+    mostrarEstadoVacioTabla(opciones.selector, opciones.columnas, opciones.textoVacio);
+    actualizarContadores();
+    mostrarMensaje("Registro eliminado correctamente.");
 };
 
 const rolPuedeVer = (rolesPermitidos, rolUsuario) => {
@@ -214,11 +314,18 @@ document.querySelector("#formInventario").addEventListener("submit", (evento) =>
         const celdaEstado = document.createElement("td");
         celdaEstado.appendChild(crearEstado(document.querySelector("#estadoEquipo").value));
         fila.appendChild(celdaEstado);
+        fila.appendChild(crearCeldaAcciones(
+            () => editarFilaTabla(fila, ["Codigo del equipo", "Tipo de equipo", "Ubicacion", "Estado"], 3),
+            () => eliminarFilaTabla(fila, {
+                selector: "#tablaInventario",
+                columnas: 5,
+                textoVacio: "Todavia no hay equipos registrados."
+            })
+        ));
 
         quitarEstadoVacio(tablaInventario);
         tablaInventario.prepend(fila);
-        incrementarNumero("#totalEquipos");
-        sincronizarReportes();
+        actualizarContadores();
         formulario.reset();
         mostrarMensaje("Equipo registrado correctamente.");
     } catch (error) {
@@ -241,23 +348,48 @@ document.querySelector("#formTicket").addEventListener("submit", (evento) => {
         const numeroTicket = Math.floor(1000 + Math.random() * 9000);
         const articulo = document.createElement("article");
         articulo.className = "ticket-item";
+        articulo.dataset.categoria = document.querySelector("#categoriaTicket").value;
+        articulo.dataset.prioridad = document.querySelector("#prioridadTicket").value;
+        articulo.dataset.solicitante = document.querySelector("#solicitanteTicket").value.trim();
+        articulo.dataset.descripcion = document.querySelector("#descripcionTicket").value.trim();
+        articulo.dataset.numero = `#TK-${numeroTicket}`;
 
         const contenido = document.createElement("div");
         const titulo = document.createElement("strong");
         const descripcion = document.createElement("p");
 
-        titulo.textContent = `#TK-${numeroTicket} - ${document.querySelector("#categoriaTicket").value} - ${document.querySelector("#prioridadTicket").value}`;
-        descripcion.textContent = `${document.querySelector("#solicitanteTicket").value.trim()}: ${document.querySelector("#descripcionTicket").value.trim()}`;
+        titulo.textContent = `${articulo.dataset.numero} - ${articulo.dataset.categoria} - ${articulo.dataset.prioridad}`;
+        descripcion.textContent = `${articulo.dataset.solicitante}: ${articulo.dataset.descripcion}`;
 
         contenido.appendChild(titulo);
         contenido.appendChild(descripcion);
         articulo.appendChild(contenido);
         articulo.appendChild(crearEstado("Pendiente"));
+        articulo.appendChild(crearAcciones(
+            () => {
+                articulo.dataset.solicitante = pedirDato("Solicitante", articulo.dataset.solicitante);
+                articulo.dataset.categoria = pedirDato("Categoria", articulo.dataset.categoria);
+                articulo.dataset.prioridad = pedirDato("Prioridad", articulo.dataset.prioridad);
+                articulo.dataset.descripcion = pedirDato("Descripcion", articulo.dataset.descripcion);
+                titulo.textContent = `${articulo.dataset.numero} - ${articulo.dataset.categoria} - ${articulo.dataset.prioridad}`;
+                descripcion.textContent = `${articulo.dataset.solicitante}: ${articulo.dataset.descripcion}`;
+                mostrarMensaje("Ticket modificado correctamente.");
+            },
+            () => {
+                if (!window.confirm("Desea eliminar este ticket?")) {
+                    return;
+                }
+
+                articulo.remove();
+                mostrarEstadoVacioTickets();
+                actualizarContadores();
+                mostrarMensaje("Ticket eliminado correctamente.");
+            }
+        ));
 
         quitarEstadoVacio(listaTickets);
         listaTickets.prepend(articulo);
-        incrementarNumero("#ticketsPendientes");
-        sincronizarReportes();
+        actualizarContadores();
         formulario.reset();
         mostrarMensaje("Ticket creado y enviado a soporte.");
     } catch (error) {
@@ -284,10 +416,18 @@ document.querySelector("#formPrestamo").addEventListener("submit", (evento) => {
     fila.appendChild(crearCelda(document.querySelector("#fechaDevolucion").value));
     celdaEstado.appendChild(crearEstado("Prestado"));
     fila.appendChild(celdaEstado);
+    fila.appendChild(crearCeldaAcciones(
+        () => editarFilaTabla(fila, ["Codigo del equipo", "Responsable", "Fecha estimada de devolucion", "Estado"], 3),
+        () => eliminarFilaTabla(fila, {
+            selector: "#tablaPrestamos",
+            columnas: 5,
+            textoVacio: "Todavia no hay prestamos registrados."
+        })
+    ));
 
     quitarEstadoVacio(tablaPrestamos);
     tablaPrestamos.prepend(fila);
-    incrementarNumero("#prestamosActivos");
+    actualizarContadores();
     formulario.reset();
     mostrarMensaje("Prestamo registrado correctamente.");
 });
@@ -311,13 +451,20 @@ document.querySelector("#formSolicitud").addEventListener("submit", (evento) => 
     fila.appendChild(crearCelda(document.querySelector("#laboratorioSolicitud").value.trim()));
     celdaEstado.appendChild(crearEstado("Pendiente"));
     fila.appendChild(celdaEstado);
+    fila.appendChild(crearCeldaAcciones(
+        () => editarFilaTabla(fila, ["Usuario", "Tipo de solicitud", "Fecha requerida", "Laboratorio", "Estado"], 4),
+        () => eliminarFilaTabla(fila, {
+            selector: "#tablaSolicitudes",
+            columnas: 6,
+            textoVacio: "Todavia no hay solicitudes registradas."
+        })
+    ));
 
     quitarEstadoVacio(tablaSolicitudes);
     tablaSolicitudes.prepend(fila);
-    incrementarNumero("#solicitudesSemana");
-    sincronizarReportes();
+    actualizarContadores();
     formulario.reset();
     mostrarMensaje("Solicitud de servicio registrada.");
 });
 
-sincronizarReportes();
+actualizarContadores();
